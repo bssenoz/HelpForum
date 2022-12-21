@@ -7,31 +7,31 @@
                     <div class="col">
                         <div class="card-body">
                         <form style="text-align:left">
-                            <h2>Create Account!</h2>
+                            <h2>{{ $t("createAccount") }}!</h2>
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Name</label>
+                                <label for="exampleInputEmail1" class="form-label">{{ $t("form.name") }}</label>
                                 <input type="text" class="form-control" id="exampleInputText1" v-model="name">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Surname</label>
+                                <label for="exampleInputEmail1" class="form-label">{{ $t("form.surname") }}</label>
                                 <input type="text" class="form-control" id="exampleInputText2" v-model="surname">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Email address</label>
+                                <label for="exampleInputEmail1" class="form-label">{{ $t("form.email") }}</label>
                                 <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" v-model="email">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">Password</label>
+                                <label for="exampleInputPassword1" class="form-label">{{ $t("form.password") }}</label>
                                 <input type="password" class="form-control" id="exampleInputPassword1" v-model="password">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputPassword2" class="form-label">Password Again</label>
+                                <label for="exampleInputPassword2" class="form-label">{{ $t("form.passwordAgain") }}</label>
                                 <input type="password" class="form-control" id="exampleInputPassword1" v-model="passwordAgain">
                             </div>
-                            <button type="submit" class="btn btn-primary">Register</button>
+                            <button type="submit" class="btn btn-primary">{{ $t("signUp") }}</button>
                             <p class="already-register">
-                            If you have already registered
-                            <router-link to="/login">Sign In</router-link>
+                              {{ $t("ifRegister") }}
+                            <router-link to="/login">{{ $t("signIn") }}</router-link>
                             </p>
                             </form>
                         </div>

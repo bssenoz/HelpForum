@@ -51,6 +51,11 @@ const routes = [
     name: 'ContentsPage',
     component: () => import('../views/auth/Contents.vue'),
   },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: () => import('../views/home/Profile.vue'),
+  },
 
 ];
 

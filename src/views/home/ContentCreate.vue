@@ -2,20 +2,20 @@
     <div>
         <Navbar/>
         <div class="content-create">
-            <h2>Ask Question!</h2>
+            <h2>{{ $t("create.ask") }}!</h2>
             <div class="container">
                 <div class="row">
                     <div class="col">
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" id="floatingInput" placeholder="Title">
-                            <label for="floatingInput">Title</label>
+                            <label for="floatingInput">{{ $t("create.title") }}</label>
                         </div>
                         <div class="form-floating">
                             <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
-                            <label for="floatingTextarea2">Comments</label>
+                            <label for="floatingTextarea2"></label>
                         </div>
                         <select class="form-select" aria-label="Default select example" style="margin-top:10px">
-                            <option selected>Category</option>
+                            <option selected>{{ $t("create.category") }}</option>
                             <option value="1">One</option>
                             <option value="2">Two</option>
                             <option value="3">Three</option>
@@ -26,7 +26,7 @@
                                 <input type="text" class="form-control" placeholder="Tag" v-model="tag">
                             </div>
                             <div class="col-2" >
-                                <div class="btn btn-outline-success" @click="addTag(tag)">Add</div>
+                                <div class="btn btn-outline-success" @click="addTag(tag)">{{ $t("create.add") }}</div>
                             </div>
                             <div class="col-7">
                                 <div class="tags" v-for="tag in tags" :key="tag.id" style="">
@@ -35,7 +35,7 @@
                             </div>
                         </form>
                         <router-link to="/ask-question" class="nav-link">
-                            <button type="button" class="btn btn btn-primary">Ask Question</button>
+                            <button type="button" class="btn btn btn-primary">{{ $t("ask") }}</button>
                     </router-link>
                     </div>
                 </div>

@@ -2,10 +2,10 @@
     <div>
         <Navbar/>
         <div class="categories">
-        <h2>CATEGORIES</h2>
+        <h2 style="text-transform: uppercase;">{{ $t("categories") }}</h2>
         <div class="container">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
-                <div class="col " v-for="category in categories" :key="category.id">
+                <div class="col" v-for="category in categories" :key="category.id">
                     <div class="card">
                         <router-link to="/categories/name" class="nav-link">
                             <div class="card-body">

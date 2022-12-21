@@ -7,22 +7,22 @@
                       <div class="col">
                           <div class="card-body">
                               <form style="text-align:left">
-                                  <h2>Welcome Back :)</h2>
+                                  <h2>{{ $t("welcome") }} :)</h2>
                                   <div class="mb-3">
-                                      <label for="exampleInputEmail1" class="form-label">Email address</label>
+                                      <label for="exampleInputEmail1" class="form-label">{{ $t("form.email") }}</label>
                                       <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" v-model="email">
                                   </div>
                                   <div class="mb-3">
-                                      <label for="exampleInputPassword1" class="form-label">Password</label>
+                                      <label for="exampleInputPassword1" class="form-label">{{ $t("form.password") }}</label>
                                       <input type="password" class="form-control" id="exampleInputPassword1" v-model="password">
                                   </div>
                                   <div class="mb-3 form-check">
                                       <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                      <label class="form-check-label" for="exampleCheck1">Remember me</label>
+                                      <label class="form-check-label" for="exampleCheck1">{{ $t("rememberMe") }}</label>
                                   </div>
-                                  <button type="submit" class="btn btn-primary" @click="login()">Log in</button>
+                                  <button type="submit" class="btn btn-primary" @click="login()">{{ $t("signIn") }}</button>
                                   <router-link to="/register">
-                                      <button  class="btn btn-light" >Create Account</button>
+                                      <button  class="btn btn-light" >{{ $t("createAccount") }}</button>
                                   </router-link>
                               </form>
                           </div>

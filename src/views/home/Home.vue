@@ -5,9 +5,9 @@
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <h2>Last Questions</h2>
+                    <h2>{{ $t("lastQuestions") }}</h2>
                     <router-link to="/ask-question" class="nav-link">
-                        <button type="button" class="btn btn btn-primary" >Ask Question</button>
+                        <button type="button" class="btn btn btn-primary" >{{ $t("newQuestion") }}</button>
                     </router-link>
                 </div>
             </div>
@@ -23,7 +23,7 @@
                                             <div class="card-left">
                                                 <div class="row">
                                                     <div ><h5>{{content.category}}</h5></div>
-                                                    <div ><h6>{{content.answer}} answer</h6></div>
+                                                    <div ><h6>{{content.answer}} {{ $t("answer") }}</h6></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -51,7 +51,7 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col">
-                                                        <span class="user">{{content.username}} asked {{content.date}}</span>
+                                                        <span class="user">{{content.username}} {{ $t("asked") }} {{content.date}}</span>
                                                     </div>
                                                 </div>
                                             </div>

@@ -5,7 +5,7 @@
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <h2>New Contents</h2>
+                    <h2>{{ $t("newContents") }}</h2>
                 </div>
             </div>
             <div v-for="content in contentsList" :key="content.id">
@@ -44,7 +44,7 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col">
-                                                        <span class="user">{{content.username}} asked {{content.date}}</span>
+                                                        <span class="user">{{content.username}} {{ $t("asked") }} {{content.date}}</span>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -115,10 +115,9 @@ export default {
         emitSearchValue(searchValue) {
             this.searchValue = searchValue;
         },
+        //calismiyor!
         approve(id) {
-            console.log(id);
             delete this.contents[id-1];
-            console.log(this.contents);
         }
     },
     computed: {

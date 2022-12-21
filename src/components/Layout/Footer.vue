@@ -4,22 +4,22 @@
         <div class="text-center text-md-start mt-5">
           <div class="row mt-3">
             <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-              <h6 class="text-uppercase fw-bold mb-4">PAGES</h6>
+              <h6 class="text-uppercase fw-bold mb-4">{{ $t("pages") }}</h6>
               <p>
-                <a href="/" class="text-reset">Home</a>
+                <a href="/" class="text-reset">{{ $t("home") }}</a>
               </p>
               <p>
-                <a href="/categories" class="text-reset">Categories</a>
+                <a href="/categories" class="text-reset">{{ $t("categories") }}</a>
               </p>
               <p>
-                <a href="/ask-question" class="text-reset">Ask Question</a>
+                <a href="/ask-question" class="text-reset">{{ $t("ask") }}</a>
               </p>
               <p>
                 <a href="#" class="text-reset">Page-4</a>
               </p>
             </div>
             <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-              <h6 class="text-uppercase fw-bold mb-4">Categories</h6>
+              <h6 class="text-uppercase fw-bold mb-4">{{ $t("categories") }}</h6>
               <p>
                 <a href="/categories/name" class="text-reset">Category-1</a>
               </p>
@@ -35,7 +35,7 @@
             </div>
 
             <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
-              <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
+              <h6 class="text-uppercase fw-bold mb-4">{{ $t("contact") }}</h6>
               <p><i class="bi bi-geo-alt-fill"></i> Sakarya, Türkiye</p>
               <p>
                 <i class="bi bi-envelope-fill"></i> example@gmail.com

@@ -8,7 +8,7 @@
                     <h2 v-if="(contents.length>1)">{{contents[0].category}}</h2>
                     <h2 v-if="(!(contents.length>1))">No questions found in this category</h2>
                     <router-link to="/ask-question" class="nav-link">
-                        <button type="button" class="btn btn btn-primary" >Ask Question</button>
+                        <button type="button" class="btn btn btn-primary" >Soru Sor</button>
                     </router-link>
                 </div>
             </div>
@@ -23,7 +23,7 @@
                                             <div class="col-2">
                                                 <div class="card-left">
                                                     <h5>{{content.category}}</h5>
-                                                    <h6>{{content.answer}} answer</h6>
+                                                    <h6>{{content.answer}} cevap</h6>
                                                 </div>
                                             </div>
                                             <div class="col-10">
@@ -43,14 +43,14 @@
                                                     </div>
                                                     <div class="row">
                                                         <div class="col">
-                                                            <router-link to="/home" class="nav-link">
-                                                                <button type="button" class="btn btn btn-secondary" >{{content.tag}}</button>
-                                                            </router-link>
+                                                        <div class="tags" v-for="tag in content.tag" :key="tag.id" style="">
+                                                            <button type="button" class="btn btn-light">{{tag}}</button>
                                                         </div>
+                                                    </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col">
-                                                            <span class="user">{{content.username}} asked {{content.date}}</span>
+                                                            <span class="user">{{content.username}} sordu {{content.date}}</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -84,7 +84,7 @@ export default {
                     id:1 ,
                     title: 'title1',
                     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
-                    tag: 'tag1',
+                    tag: ['tag1','tag2'],
                     category: 'category1',
                     username: 'user1',
                     date: '08-12-2022',
@@ -94,7 +94,7 @@ export default {
                     id:2 ,
                     title: 'lorem',
                     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
-                    tag: 'tag2',
+                    tag: ['tag2'],
                     category: 'category1',
                     username: 'user1',
                     date: '09-12-2022',
@@ -103,7 +103,7 @@ export default {
                     id:3 ,
                     title: 'title3',
                     text: 'text3',
-                    tag: 'tag3',
+                    tag: ['tag3'],
                     category: 'category1',
                     username: 'user3',
                     date: '10-12-2022',
@@ -150,6 +150,9 @@ export default {
     color:#05445E;
     float: left,
   }
+  .tags{
+    display: inline-block;
+}
   .card-text {
     text-align: left;
     margin-bottom:10px;

@@ -32,21 +32,21 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <span class="user">{{content.username}} asked {{content.date}}</span>
+                                <span class="user">{{content.username}} {{ $t("asked") }} {{content.date}}</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <button type="button" class="btn btn btn-primary" style="margin-top:10px;" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Reply</button>
-            <h4>Answers</h4>
+            <button type="button" class="btn btn btn-primary" style="margin-top:10px;" data-bs-toggle="modal" data-bs-target="#staticBackdrop">{{ $t("modal.reply") }}</button>
+            <h4>{{ $t("answers") }}</h4>
                     <div class="container">
                         <div class="row row-cols-1" v-for="comment in comments" :key="comment.id">
                             <div class="col">
                                 <p class="card-text" style="text-align:left" >{{comment.text}}</p>
                             </div>
                             <div class="col">
-                                <span class="user">{{comment.username}} answered {{comment.date}}</span>
+                                <span class="user">{{comment.username}} {{ $t("replied") }} {{comment.date}}</span>
                             </div>
                         </div>
                     </div>
@@ -57,18 +57,18 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Answer</h1>
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">{{ $t("modal.answer") }}</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-floating">
                             <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
-                            <label for="floatingTextarea2">Your Answer</label>
+                            <label for="floatingTextarea2">{{ $t("modal.yourAnswer") }}</label>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" style="background-color:#167D7F;border:1px solid #167D7F">Reply</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ $t("modal.close")}}</button>
+                        <button type="button" class="btn btn-primary" style="background-color:#167D7F;border:1px solid #167D7F">{{ $t("modal.reply")}}</button>
                     </div>
                     </div>
                 </div>
