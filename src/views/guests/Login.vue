@@ -36,7 +36,8 @@
 
   <script>
   import axios from 'axios';
-  
+  import swal from 'sweetalert';
+
   export default {
     name:'LoginPage',
     data() {
@@ -45,42 +46,26 @@
             password: '',
         }
     },
-    mounted() {
-    axios
-      .get('api/authentication/me', {
-        headers: {
-          'x-access-token': localStorage.getItem('x-access-token'),
-        },
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          this.$router.push('/home');
-        }
-      });
-  },
   methods: {
     login() {
-      if (this.username !== '' && this.password !== '') {
+      if (this.email !== '' && this.password !== '') {
         axios
-          .post('api/authentication/login', {
-            username: this.username,
+          .post('api/Authentication/Login', {
+            email: this.email,
             password: this.password,
           })
           .then((res) => {
             if (res.status === 200) {
-              localStorage.setItem('x-access-token', res.data.token.value);
-              axios.get('api/authentication/me', {
-                headers: {
-                  'x-access-token': res.data.token.value,
-                },
-              });
+              console.log(res);
+              localStorage.setItem("x-access-token",res.data.token.accessToken);
+              const a = JSON.stringify(res.data.token.accessToken);
+              console.log("--------");
+              console.log(a);
               this.$router.push('/home');
-              window.location.reload();
             }
           })
           .catch((err) => {
-            console.log("ERROR!!!");
-           console.log(err);
+            swal("!!!"+ err);
           });
       }
     },

@@ -6,6 +6,7 @@ const i18n = createI18n({
         en: {
             signUp: "Register",
             signIn: "Login",
+            logout: "Logout",
             home: "Home",
             categories: "Categories",
             ask: "Ask",
@@ -52,6 +53,7 @@ const i18n = createI18n({
         tr: {
             signUp: "Kayıt ol",
             signIn: "Giriş",
+            logout: "Çıkış",
             home: "AnaSayfa",
             categories: "Kategoriler",
             ask: "Sor",

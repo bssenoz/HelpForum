@@ -42,11 +42,14 @@
               {{ lang }}
             </option>
           </select>
-          <button type="button" class="btn btn-success">
+          <button type="button" class="btn btn-success" v-if="!loginSituation">
             <router-link to="/login" class="nav-link">{{ $t("signIn") }}</router-link>
           </button>
-          <button type="button" class="btn btn-light">
+          <button type="button" class="btn btn-light" v-if="!loginSituation">
             <router-link to="/register" class="nav-link">{{ $t("signUp") }}</router-link>
+          </button>
+          <button type="button" class="btn btn-success" v-if="loginSituation" @click="logout()">
+            {{ $t("logout") }}
           </button>
         </div>
       </div>
@@ -60,12 +63,21 @@
       data() {
         return {
           searchValue: '',
-          langs: ['tr', 'en']
+          langs: ['tr', 'en'],
+          loginSituation: false
         }
+      },
+      mounted() {
+        const login = localStorage.getItem("x-access-token");
+        if(login!=null) this.loginSituation = true;
       },
       methods: {
         keyupEvent() {
           this.$emit('searchValue',this.searchValue);
+        },
+        logout() {
+          localStorage.clear();
+          window.location.reload();
         }
       }
     }

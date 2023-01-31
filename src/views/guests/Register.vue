@@ -26,9 +26,9 @@
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputPassword2" class="form-label">{{ $t("form.passwordAgain") }}</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1" v-model="passwordAgain">
+                                <input type="password" class="form-control" id="exampleInputPassword1" v-model="confirmPassword">
                             </div>
-                            <button type="submit" class="btn btn-primary">{{ $t("signUp") }}</button>
+                            <button type="submit" class="btn btn-primary" @click="register()">{{ $t("signUp") }}</button>
                             <p class="already-register">
                               {{ $t("ifRegister") }}
                             <router-link to="/login">{{ $t("signIn") }}</router-link>
@@ -45,6 +45,7 @@
 
 <script>
 import axios from 'axios';
+import swal from 'sweetalert';
 
 export default {
   name: 'RegisterPage',
@@ -54,29 +55,35 @@ export default {
       surname: '',
       email: '',
       password: '',
-      passwordAgain: '',
+      confirmPassword: '',
     };
   },
   methods: {
     register() {
-        if(this.password == this.passwordAgain) {
-            axios.post('api/authentication/register/', {
-              username: this.username,
-              password: this.password,
-              email: this.email,
+        if(this.password == this.confirmPassword) {
+            axios.post('/api/Authentication/Register/', {
               name: this.name,
+              surname: this.surname,
+              email: this.email,
+              password: this.password,
+              confirmPassword: this.confirmPassword,
             })
               .then((respose) => {
-                if (respose.status === 201) {
-                    console.log("basarili").then(() => {
+                swal("then içi");
+                console.log("then içi");
+                if (respose.status === 200) {
+                  swal({
+                    title: `Thank you ${this.name}.Your acount has been succesfully created.`,
+                    text: 'Please check your mailbox. We send a information mail.',
+                    icon: 'success',
+                  }).then(() => {
                     this.$router.push('login');
                   });
-                }
+            }
               })
               .catch((err) => {
-                    console.log("error!!");
-                    console.log(err);
-              });
+                swal("!!!"+err);
+          });
         }
       
     },
