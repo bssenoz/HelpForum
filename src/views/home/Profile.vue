@@ -127,6 +127,7 @@
 <script>
 import Navbar from '../../components/Layout/Navbar.vue';
 import Footer from '../../components/Layout/Footer.vue';
+import axios from 'axios';
 
 export default {
     name: 'ProfilePage',
@@ -155,6 +156,24 @@ export default {
                 },
             ],
         }
+    },
+    mounted() {
+      const token = localStorage.getItem("x-access-token");
+        axios
+          .get('api/Users/GetUser', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              token: token
+            }
+          })
+          .then((res) => {
+            if (res.status === 200) {
+              console.log(res);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          }); 
     },
 
 

@@ -69,8 +69,6 @@ export default {
               confirmPassword: this.confirmPassword,
             })
               .then((respose) => {
-                swal("then içi");
-                console.log("then içi");
                 if (respose.status === 200) {
                   swal({
                     title: `Thank you ${this.name}.Your acount has been succesfully created.`,

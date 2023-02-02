@@ -52,6 +52,11 @@ const routes = [
     component: () => import('../views/auth/Contents.vue'),
   },
   {
+    path: '/edit',
+    name: 'CategoriesPage',
+    component: () => import('../views/auth/Categories.vue'),
+  },
+  {
     path: '/profile',
     name: 'Profile',
     component: () => import('../views/home/Profile.vue'),

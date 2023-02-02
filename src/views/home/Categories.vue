@@ -9,7 +9,7 @@
                     <div class="card">
                         <router-link to="/categories/name" class="nav-link">
                             <div class="card-body">
-                                {{category.name}}
+                                {{category.categoryName}}
                             </div>
                         </router-link>
                     </div>
@@ -25,50 +25,33 @@
 <script>
 import Navbar from '../../components/Layout/Navbar.vue';
 import Footer from '../../components/Layout/Footer.vue';
+import axios from 'axios';
 
 export default {
     name: 'CategoriesPage',
     data() {
         return {
-            categories: [
-                {
-                    id: 1,
-                    name: "category-1",
-                },
-                {
-                    id: 2,
-                    name: "category-2",
-                },
-                {
-                    id: 3,
-                    name: "category-3",
-                },
-                {
-                    id: 4,
-                    name: "category-4",
-                },
-                {
-                    id: 5,
-                    name: "category-5",
-                },
-                {
-                    id: 6,
-                    name: "category-6",
-                },
-                {
-                    id: 7,
-                    name: "category-7",
-                },
-                {
-                    id: 8,
-                    name: "category-8",
-                },
-                {
-                    id: 9,
-                    name: "category-9",
-                }
-            ],
+            categories: [],
         }
+    },
+    mounted() {
+      const token = localStorage.getItem("x-access-token");
+        axios
+          .get('api/Category/GetAllCategories', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              token: token
+            }
+          })
+          .then((res) => {
+            if (res.status === 200) {
+              console.log(res);
+              this.categories=res.data
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          }); 
     },
   components: {
    Navbar,

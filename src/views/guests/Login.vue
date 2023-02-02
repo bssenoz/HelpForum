@@ -57,10 +57,9 @@
           .then((res) => {
             if (res.status === 200) {
               console.log(res);
-              localStorage.setItem("x-access-token",res.data.token.accessToken);
-              const a = JSON.stringify(res.data.token.accessToken);
-              console.log("--------");
-              console.log(a);
+              const token = res.data.token.accessToken;
+              localStorage.setItem("x-access-token",token);
+              res.headers["authorization"] = `Bearer ${token}`;
               this.$router.push('/home');
             }
           })
