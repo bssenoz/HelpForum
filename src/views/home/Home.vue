@@ -22,7 +22,7 @@
                                         <div class="col-lg-2 col-sm-12">
                                             <div class="card-left">
                                                 <div class="row">
-                                                    <div ><h5>{{content.category}}</h5></div>
+                                                    <div ><h5>burası değişecek:{{content.categoryId}}</h5></div>
                                                     <div ><h6>{{content.answer}} {{ $t("answer") }}</h6></div>
                                                 </div>
                                             </div>
@@ -32,14 +32,14 @@
                                                 <div class="row">
                                                     <div class="col">
                                                         <router-link to="/help/id" class="nav-link">
-                                                            <h5 class="card-title">{{content.title}}</h5>
+                                                            <h5 class="card-title">{{content.helpTitle}}</h5>
                                                         </router-link>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col">
-                                                        <span class="card-text" >{{content.text.slice(0, 300)}}</span>
-                                                        <span  v-if="(content.text.length>300)" style="text-decoration: none;font-weight: bold;color:green;">...</span>   
+                                                        <span class="card-text" >{{content.helpText.slice(0, 300)}}</span>
+                                                        <span  v-if="(content.helpText.length>300)" style="text-decoration: none;font-weight: bold;color:green;">...</span>   
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -51,7 +51,7 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col">
-                                                        <span class="user">{{content.username}} {{ $t("asked") }} {{content.date}}</span>
+                                                        <span class="user">user yok!{{content.username}} {{ $t("asked") }} {{content.helpDate}}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -73,49 +73,42 @@
 <script>
 import Navbar from '../../components/Layout/Navbar.vue';
 import Footer from '../../components/Layout/Footer.vue';
+import axios from 'axios';
 
 export default {
     name: 'HomePage',
     data() {
         return {
             searchValue: '',
-            contents: [
-                {
-                    id:1 ,
-                    title: 'Title1',
-                    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
-                    tag: ['Tag1','Tag2','Tag3'],
-                    category: 'Category1',
-                    username: 'User1',
-                    date: '08-12-2022',
-                    answer: 1
-                },
-                {
-                    id:2 ,
-                    title: 'lorem',
-                    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
-                    tag: ['tag2'],
-                    category: 'category2',
-                    username: 'user1',
-                    date: '09-12-2022',
-                    answer: 0
-                },                {
-                    id:3 ,
-                    title: 'title3',
-                    text: 'text3',
-                    tag: ['tag3'],
-                    category: 'category3',
-                    username: 'user3',
-                    date: '10-12-2022',
-                    answer: 2
-                }
-            ],
+            contents: [],
+            title: '',
+            tag: '',
+            text: '',
+            categoryId: '',
+            date: '',
         }
+    },
+    mounted() {
+        const token = localStorage.getItem("x-access-token");
+        axios.get('api/Help/GetAllHelps', {
+          headers: {
+              Authorization: `Bearer ${token}`,
+              token: token
+            }
+        })
+        .then((res) => {
+          if(res.status === 200) {
+            this.contents=res.data
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        })
     },
     methods: {
         emitSearchValue(searchValue) {
             this.searchValue = searchValue;
-        }
+        },
     },
     computed: {
         contentsList() {

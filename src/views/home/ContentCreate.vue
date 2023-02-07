@@ -7,15 +7,15 @@
                 <div class="row">
                     <div class="col">
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="floatingInput" placeholder="Title">
+                            <input type="text" class="form-control" id="floatingInput" placeholder="Title" v-model="title">
                             <label for="floatingInput">{{ $t("create.title") }}</label>
                         </div>
                         <div class="form-floating">
-                            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" v-model="text"></textarea>
                             <label for="floatingTextarea2"></label>
                         </div>
-                        <select class="form-select" aria-label="Default select example" style="margin-top:10px">
-                            <option selected>{{ $t("create.category") }}</option>
+                        <select class="form-select" aria-label="Default select example" style="margin-top:10px" v-model="category">
+                            <option selected >{{ $t("create.category") }}</option>
                             <option value="1">One</option>
                             <option value="2">Two</option>
                             <option value="3">Three</option>
@@ -35,7 +35,7 @@
                             </div>
                         </form>
                         <router-link to="/ask-question" class="nav-link">
-                            <button type="button" class="btn btn btn-primary">{{ $t("ask") }}</button>
+                            <button type="button" class="btn btn btn-primary" @click="createHelp()">{{ $t("ask") }}</button>
                     </router-link>
                     </div>
                 </div>
@@ -49,12 +49,19 @@
 <script>
 import Navbar from '../../components/Layout/Navbar.vue';
 import Footer from '../../components/Layout/Footer.vue';
+import axios from 'axios';
+import swal from 'sweetalert';
 
 export default {
     name: 'ContentCreatePage',
     data() {
         return {
             tags: [],
+            tag: 'tag',
+            title: '',
+            text: '',
+            category: '',
+            categoryId: 1
         }
     },
     components: {
@@ -66,6 +73,36 @@ export default {
             console.log(newTag);
             this.tags.push(newTag);
             console.log(this.tags);
+        },
+        createHelp() {
+            const token = localStorage.getItem("x-access-token");
+        axios.post('api/Help/CreateHelp', {
+          helpTitle: this.title,
+          helpTag: this.tag,
+          helpText: this.text,
+          categoryId: this.categoryId
+        }, {
+          headers: {
+              Authorization: `Bearer ${token}`,
+              token: token
+            }
+        })
+        .then((res) => {
+          console.log("then")
+          if(res.status === 200) {
+            console.log(res);
+            swal({
+                title: 'Content has been created successfully',
+                text: 'Waiting for admin approval',
+                icon: 'success',
+                  }).then(() => {
+                        window.location.reload();
+                  });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        })
         }
     },
 }
