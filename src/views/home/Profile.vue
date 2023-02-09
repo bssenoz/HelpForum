@@ -107,34 +107,32 @@
                                         <div class="row">
                                             <div class="col-2">
                                                 <div class="card-left">
-                                                    <h5>{{content.category}}</h5>
+                                                    <h5>{{content.categoryId}}</h5>
                                                     <h6>{{content.answer}} {{ $t("answer") }}</h6>
                                                 </div>
                                             </div>
                                             <div class="col-10">
-                                                <div class="container">
+                                                <div class="container" @click="go(content.helpId)">
                                                     <div class="row">
                                                         <div class="col">
-                                                            <router-link to="/help/id" class="nav-link">
-                                                                <h5 class="card-title">{{content.title}}</h5>
-                                                            </router-link>
+                                                                <h5 class="card-title">{{content.helpTitle}}</h5>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col">
-                                                            <span class="card-text" >{{content.text}}</span>
+                                                            <span class="card-text" >{{content.helpText}}</span>
                                                         </div>
                                                     </div>
-                                                    <div class="row">
+                                                    <!-- <div class="row">
                                                         <div class="col">
                                                             <div class="tags" v-for="tag in content.tag" :key="tag.id" style="">
                                                                 <button type="button" class="btn btn-light">{{tag}}</button>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div> -->
                                                     <div class="row">
                                                         <div class="col">
-                                                            <span class="user">{{content.date}}</span>
+                                                            <span class="user">{{content.helpaDte}}</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -171,28 +169,7 @@ export default {
             email: '',
             newPassword: '',
             confirmPassword: '',
-            contents: [
-                {
-                    id:1 ,
-                    title: 'Title1',
-                    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
-                    tag: ['Tag1','Tag2','Tag3'],
-                    category: 'Category1',
-                    username: 'User1',
-                    date: '08-12-2022',
-                    answer: 1
-                },
-                {
-                    id:2 ,
-                    title: 'lorem',
-                    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
-                    tag: ['tag2'],
-                    category: 'category2',
-                    username: 'user1',
-                    date: '09-12-2022',
-                    answer: 0
-                },
-            ],
+            contents: [],
         }
     },
     mounted() {
@@ -216,6 +193,19 @@ export default {
           .catch((err) => {
             console.log(err);
           }); 
+          axios.get('api/Help/GetAllUserHelps',{
+            headers: {
+              Authorization: `Bearer ${token}`,
+              token: token
+            }
+          }).then((res2) => {
+            if(res2.status===200) {
+                console.log(res2)
+                this.contents=res2.data
+            }
+          }).catch((err2) => {
+            console.log(err2);
+          });
     },
     methods: {
         updateUser() {
@@ -267,6 +257,9 @@ export default {
             .catch((err) => {
                 swal("!!!"+ err);
             })
+        },
+        go(id) {
+            this.$router.push(`content/${id}`);
         }
     },
   components: {

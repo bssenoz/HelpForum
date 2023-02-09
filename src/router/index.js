@@ -27,7 +27,7 @@ const routes = [
     component: () => import('../views/guests/Register.vue'),
   },
   {
-    path: '/help/id',
+    path: '/content/:id',
     name: 'ContentDetail',
     component: () => import('../views/home/ContentDetail.vue'),
   },
@@ -38,21 +38,21 @@ const routes = [
   },  
   {
     path: '/categories',
-    name: 'Categories',
-    component: () => import('../views/home/Categories.vue'),
+    name: 'CategoryMenu',
+    component: () => import('../views/home/CategoryMenu.vue'),
   },
   {
-    path: '/categories/name',
-    name: 'CategoriesName',
-    component: () => import('../views/home/CategoriesAsk.vue'),
+    path: '/categories/:id',
+    name: 'CategoryContents',
+    component: () => import('../views/home/CategoryContents.vue'),
   },
   {
-    path: '/contents',
+    path: '/panel/content',
     name: 'ContentsPage',
     component: () => import('../views/auth/Contents.vue'),
   },
   {
-    path: '/edit',
+    path: '/panel/category',
     name: 'CategoriesPage',
     component: () => import('../views/auth/Categories.vue'),
   },
@@ -60,6 +60,11 @@ const routes = [
     path: '/profile',
     name: 'Profile',
     component: () => import('../views/home/Profile.vue'),
+  },
+  {
+    path: '/user/:id',
+    name: 'UserPage',
+    component: () => import('../views/home/User.vue'),
   },
 
 ];

@@ -61,12 +61,31 @@ export default {
             title: '',
             text: '',
             category: '',
-            categoryId: 1
+            categoryId: 2
         }
     },
     components: {
         Navbar,
         Footer
+    },
+    mounted() {
+        const token = localStorage.getItem("x-access-token");
+        axios
+          .get('api/Category/GetAllCategories', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              token: token
+            }
+          })
+          .then((res) => {
+            if (res.status === 200) {
+              console.log(res);
+              this.categories=res.data
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
     },
     methods: {
         addTag(newTag) {
@@ -78,7 +97,7 @@ export default {
             const token = localStorage.getItem("x-access-token");
         axios.post('api/Help/CreateHelp', {
           helpTitle: this.title,
-          helpTag: this.tag,
+         // helpTag: this.tag,
           helpText: this.text,
           categoryId: this.categoryId
         }, {

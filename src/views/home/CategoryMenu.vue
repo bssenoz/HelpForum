@@ -6,12 +6,10 @@
         <div class="container">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
                 <div class="col" v-for="category in categories" :key="category.id">
-                    <div class="card">
-                        <router-link to="/categories/name" class="nav-link">
-                            <div class="card-body">
-                                {{category.categoryName}}
-                            </div>
-                        </router-link>
+                    <div class="card" @click="go(category.categoryId)">
+                        <div class="card-body">
+                            {{category.categoryName}}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -28,7 +26,7 @@ import Footer from '../../components/Layout/Footer.vue';
 import axios from 'axios';
 
 export default {
-    name: 'CategoriesPage',
+    name: 'CategoryMenu',
     data() {
         return {
             categories: [],
@@ -52,6 +50,11 @@ export default {
           .catch((err) => {
             console.log(err);
           }); 
+    },
+    methods: {
+        go(id) {
+            this.$router.push(`/categories/${id}`);
+        }
     },
   components: {
    Navbar,

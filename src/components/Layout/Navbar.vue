@@ -23,7 +23,7 @@
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link to="/contents" class="nav-link">
+              <router-link to="/panel/content" class="nav-link">
                 <a class="nav-link">{{ $t("contents") }}</a>
               </router-link>
             </li>

@@ -22,18 +22,16 @@
                                         <div class="col-lg-2 col-sm-12">
                                             <div class="card-left">
                                                 <div class="row">
-                                                    <div ><h5>burası değişecek:{{content.categoryId}}</h5></div>
-                                                    <div ><h6>{{content.answer}} {{ $t("answer") }}</h6></div>
+                                                    <div @click="goCategory(content.categoryId)"><h5>{{content.categoryId}}</h5></div>
+                                                    <div ><h6>[?]{{content.answer}} {{ $t("answer") }}</h6></div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-10 col-sm-12">
-                                            <div class="container">
+                                            <div class="container" >
                                                 <div class="row">
-                                                    <div class="col">
-                                                        <router-link to="/help/id" class="nav-link">
+                                                    <div class="col" @click="goContent(content.helpId)" style="cursor:pointer">
                                                             <h5 class="card-title">{{content.helpTitle}}</h5>
-                                                        </router-link>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -50,8 +48,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col">
-                                                        <span class="user">user yok!{{content.username}} {{ $t("asked") }} {{content.helpDate}}</span>
+                                                    <div class="col" @click="goUser(content.applicationUserId)">
+                                                        <span class="user">{{content.applicationUserId}} {{ $t("asked") }} {{content.helpDate}}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -81,16 +79,12 @@ export default {
         return {
             searchValue: '',
             contents: [],
-            title: '',
             tag: '',
-            text: '',
-            categoryId: '',
-            date: '',
         }
     },
     mounted() {
         const token = localStorage.getItem("x-access-token");
-        axios.get('api/Help/GetAllHelps', {
+        axios.get('api/Help/GetAllCheckedHelps', {
           headers: {
               Authorization: `Bearer ${token}`,
               token: token
@@ -99,27 +93,74 @@ export default {
         .then((res) => {
           if(res.status === 200) {
             this.contents=res.data
+            var x = this.contents.length;
+            for(var i = 0; i< x ;i++) {
+                var id = this.contents[i].categoryId;
+                var y = 0;
+                 axios.get(`api/Category/GetCategoryById/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        token: token
+                        }
+                    })
+                    .then((res2) => {
+                        if(res2.status === 200) {
+                            this.contents[y].categoryId = res2.data.categoryName;
+                            y++;
+                        }
+                    })
+                    .catch((err2) => {
+                        console.log(err2);
+                    })
+                //-----
+                    // console.log("i: "+i)
+                    // var userId = this.contents[i].applicationUserId;
+                    // axios.get(`api/Users/GetUserById/${userId}`, {
+                    // headers: {
+                    //     Authorization: `Bearer ${token}`,
+                    //     token: token
+                    //     }
+                    // })
+                    // .then((res2) => {
+                    //     if(res2.status === 200) {
+                    //         this.contents[y].applicationUserId = res2.data.userName;
+                    //         y++;
+                    //     }
+                    // })
+                    // .catch((err2) => {
+                    // console.log(err2);
+                    // })
+            }
           }
         })
         .catch((err) => {
           console.log(err);
-        })
+        });
     },
     methods: {
         emitSearchValue(searchValue) {
             this.searchValue = searchValue;
         },
+        goContent(id) {
+            this.$router.push(`content/${id}`);
+        },
+        goCategory(id) {
+            this.$router.push(`category/${id}`);
+        },
+        goUser(id) {
+            this.$router.push(`user/${id}`)
+        }
     },
     computed: {
         contentsList() {
             if(this.searchValue.trim().length > 0 ) {
                 return this.contents.filter((content) =>
-                    content.title
+                    content.helpTitle
                     .toLowerCase()
                     .includes(this.searchValue.trim().toLowerCase()));
             }
             return this.contents;
-        }
+        },
   },
   components: {
    Navbar,

@@ -8,31 +8,29 @@
                     <div class="container">
                         <div class="row">
                             <div class="col">
-                                <router-link to="/help/id" class="nav-link">
-                                    <h5 class="card-title">{{content.title}}</h5>
-                                </router-link>
+                                <h5 class="card-title">{{content.helpTitle}}</h5>
                             </div>
                             <div class="col">
                                 <router-link to="/category/id" class="nav-link">
-                                    <h5 class="card-category">{{content.category}}</h5>
+                                    <h5 class="card-category">{{content.categoryId}}</h5>
                                 </router-link>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <p class="card-text">{{content.text}}</p>
+                                <p class="card-text">{{content.helpText}}</p>
                             </div>
                         </div>
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col">
                                 <div class="tags" v-for="tag in content.tag" :key="tag.id" style="">
                                     <button type="button" class="btn btn-light">{{tag}}</button>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="row">
                             <div class="col">
-                                <span class="user">{{content.username}} {{ $t("asked") }} {{content.date}}</span>
+                                <span class="user">{{content.applicationUserId}} {{ $t("asked") }} {{content.helpDate}}</span>
                             </div>
                         </div>
                     </div>
@@ -82,21 +80,13 @@
 <script>
 import Navbar from '../../components/Layout/Navbar.vue';
 import Footer from '../../components/Layout/Footer.vue';
+import axios from 'axios';
 
 export default {
 name: 'ContentDetailPage',
 data() {
     return {
-        content: {
-                id:1 ,
-                title: 'Title-1',
-                text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
-                tag: ['tag-1','tag-2'],
-                category: 'Category-1',
-                username: 'User1',
-                date: '08-12-2022',
-                answer: 1
-            },
+        content: {},
         comments:[
             {
                 id:1 ,
@@ -115,6 +105,29 @@ data() {
         ]
     }
 },
+mounted() {
+        var url = window.location.hash
+        var first = url.lastIndexOf("/");
+        var last = url.length
+        var id = url.substr(first + 1 ,last)
+
+        const token = localStorage.getItem("x-access-token");
+        axios.get(`api/Help/GetHelpById/${id}`, {
+          headers: {
+              Authorization: `Bearer ${token}`,
+              token: token
+            }
+        })
+        .then((res) => {
+          if(res.status === 200) {
+            this.content=res.data
+            console.log(res.data)
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+     },
 components: {
    Navbar,
    Footer,

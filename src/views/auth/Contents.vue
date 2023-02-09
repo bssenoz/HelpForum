@@ -4,8 +4,14 @@
         <div class="home">
         <div class="container">
             <div class="row">
-                <div class="col">
+                <div class="col" @click="getAllUnCheckedHelps()">
                     <h2>{{ $t("newContents") }}</h2>
+                </div>
+                <div class="col" @click="getAllCheckedHelps()">
+                    <h3>Checked Contents</h3>
+                </div>
+                <div class="col" @click="allContents()">
+                    <h3 style="float:right">All Contents</h3>
                 </div>
             </div>
             <div v-for="content in contentsList" :key="content.id">
@@ -20,37 +26,39 @@
                                             <div class="container">
                                                 <div class="row">
                                                     <div class="col">
-                                                        <h6>{{content.category}}</h6>
+                                                        !düzelt: <h6>{{content.categoryId}}</h6>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col">
                                                         <router-link to="/help/id" class="nav-link">
-                                                            <h5 class="card-title">{{content.title}}</h5>
+                                                            <h5 class="card-title">{{content.helpTitle}}</h5>
                                                         </router-link>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col">
-                                                        <span class="card-text" >{{content.text}}</span>
+                                                        <span class="card-text" >{{content.helpText}}</span>
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <!-- !DÜZELTİLECEK -->
+                                                <!-- <div class="row">
                                                     <div class="col">
                                                         <div class="tags" v-for="tag in content.tag" :key="tag.id" style="">
                                                             <button type="button" class="btn btn-light">{{tag}}</button>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                                 <div class="row">
                                                     <div class="col">
-                                                        <span class="user">{{content.username}} {{ $t("asked") }} {{content.date}}</span>
+                                                        <!-- user id olmayacak düzelt -->
+                                                        <span class="user">{{content.applicationUserId}} {{ $t("asked") }} {{content.helpDate}}</span>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="approve" style="display: inline-block;text-align:center">
-                                                        <i class="bi bi-x"></i>
-                                                        <i class="bi bi-check2" @click="approve(content.id)"></i>
+                                                        <i class="bi bi-x" @click="reject(content.helpId)"></i>
+                                                        <i class="bi bi-check2" @click="approve(content.helpId)"></i>
                                                     </div>
                                                 </div>
                                             </div>
@@ -72,59 +80,154 @@
 <script>
 import Navbar from '../../components/Layout/Navbar.vue';
 import Footer from '../../components/Layout/Footer.vue';
+import axios from 'axios';
 
 export default {
     name: 'ContentsPage',
     data() {
         return {
             searchValue: '',
+            title: '',
+            text: '',
+            date: '',
+            categoryId: '',
             contents: [
-                {
-                    id:1 ,
-                    title: 'Title1',
-                    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
-                    tag: ['Tag1','Tag2','Tag3'],
-                    category: 'Category1',
-                    username: 'User1',
-                    date: '08-12-2022',
-                    answer: 1
-                },
-                {
-                    id:2 ,
-                    title: 'lorem',
-                    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
-                    tag: ['tag2'],
-                    category: 'category2',
-                    username: 'user1',
-                    date: '09-12-2022',
-                    answer: 0
-                },                {
-                    id:3 ,
-                    title: 'title3',
-                    text: 'text3',
-                    tag: ['tag3'],
-                    category: 'category3',
-                    username: 'user3',
-                    date: '10-12-2022',
-                    answer: 2
-                }
+                // {
+                //     id:1 ,
+                //     title: 'Title1',
+                //     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
+                //     tag: ['Tag1','Tag2','Tag3'],
+                //     category: 'Category1',
+                //     username: 'User1',
+                //     date: '08-12-2022',
+                //     answer: 1
+                // },
+                // {
+                //     id:2 ,
+                //     title: 'lorem',
+                //     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
+                //     tag: ['tag2'],
+                //     category: 'category2',
+                //     username: 'user1',
+                //     date: '09-12-2022',
+                //     answer: 0
+                // },                {
+                //     id:3 ,
+                //     title: 'title3',
+                //     text: 'text3',
+                //     tag: ['tag3'],
+                //     category: 'category3',
+                //     username: 'user3',
+                //     date: '10-12-2022',
+                //     answer: 2
+                // }
             ],
         }
+    },
+    mounted(){
+        this.getAllUnCheckedHelps();
     },
     methods: {
         emitSearchValue(searchValue) {
             this.searchValue = searchValue;
         },
-        //calismiyor!
+        allContents() {
+            const token = localStorage.getItem("x-access-token");
+            axios.get('api/Help/GetAllHelps', {
+          headers: {
+              Authorization: `Bearer ${token}`,
+              token: token
+            }
+        })
+        .then((res) => {
+          if(res.status === 200) {
+            console.log(res);
+            this.contents = res.data
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        },
+        getAllCheckedHelps() {
+            const token = localStorage.getItem("x-access-token");
+            axios.get('api/Help/GetAllCheckedHelps', {
+          headers: {
+              Authorization: `Bearer ${token}`,
+              token: token
+            }
+        })
+        .then((res) => {
+          if(res.status === 200) {
+            console.log(res);
+            this.contents = res.data
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        },
+        getAllUnCheckedHelps() {
+            const token = localStorage.getItem("x-access-token");
+            axios.get('api/Help/GetAllUnCheckedHelps', {
+          headers: {
+              Authorization: `Bearer ${token}`,
+              token: token
+            }
+        })
+        .then((res) => {
+          if(res.status === 200) {
+            console.log(res);
+            this.contents = res.data
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        },
         approve(id) {
-            delete this.contents[id-1];
+            const token = localStorage.getItem("x-access-token");
+            axios.put(`api/Help/SetCheckedHelp?id=${id}`, {
+            headers: {
+                accept: '*/*',
+                Authorization: `Bearer ${token}`,
+                token: token
+                }
+            })
+            .then((res) => {
+            if(res.status === 200) {
+                console.log(res);
+                window.location.reload();
+            }
+            })
+            .catch((err) => {
+            console.log(err);
+            })
+        },
+        reject(id) {
+            const token = localStorage.getItem("x-access-token");
+            axios.put(`api/Help/SetUnCheckedHelp?id=${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                token: token
+                }
+            })
+            .then((res) => {
+            if(res.status === 200) {
+                console.log(res);
+                //window.location.reload();
+            }
+            })
+            .catch((err) => {
+            console.log(err);
+            })
         }
     },
     computed: {
         contentsList() {
             if(this.searchValue.trim().length > 0 ) {
                 return this.contents.filter((content) =>
-                    content.title
+                    content.helpTitle
                     .toLowerCase()
                     .includes(this.searchValue.trim().toLowerCase()));
             }
