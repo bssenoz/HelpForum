@@ -69,6 +69,7 @@
       },
       mounted() {
         const login = localStorage.getItem("x-access-token");
+        console.log(login)
         if(login!=null) this.loginSituation = true;
       },
       methods: {

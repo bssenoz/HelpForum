@@ -4,9 +4,12 @@
         <div class="home">
         <div class="container">
             <div class="row">
+                <h2>{{ name }}</h2>
+            </div>
+            <div class="row">
                 <div class="col">
-                    <h2 v-if="(contents.length>1)">{{contents[0].category}}</h2>
-                    <h2 v-if="(!(contents.length>1))">No questions found in this category</h2>
+                    <h2 v-if="(contents.length>0)">{{contents[0].category}}</h2>
+                    <h2 v-if="(!(contents.length>0))">No questions found in this category</h2>
                     <router-link to="/ask-question" class="nav-link">
                         <button type="button" class="btn btn btn-primary" >Soru Sor</button>
                     </router-link>
@@ -22,8 +25,8 @@
                                         <div class="row">
                                             <div class="col-2">
                                                 <div class="card-left">
-                                                    <h5>{{content.categoryId}}</h5>
-                                                    <h6>{{content.answer}} cevap</h6>
+                                                    <h5>{{content.categoryId.categoryName}}</h5>
+                                                    <h6>[?]{{content.answer}} cevap</h6>
                                                 </div>
                                             </div>
                                             <div class="col-10">
@@ -47,9 +50,8 @@
                                                     </div>
                                                     </div> -->
                                                     <div class="row">
-                                                        <div class="col">
-                                                            <!-- düzenle -->
-                                                            <span class="user">{{content.applicationUserId}} sordu {{content.helpDate}}</span>
+                                                        <div class="col" @click="goUser(content.applicationUserId.id)">
+                                                            <span class="user">{{content.applicationUserId.userName}} {{ $t("asked") }} {{content.helpDate}}</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -78,7 +80,7 @@ export default {
     data() {
         return {
             searchValue: '',
-            categoryName: 'name',
+            name: '',
             contents: [],
         }
     },
@@ -97,7 +99,46 @@ export default {
         })
         .then((res) => {
           if(res.status === 200) {
-            this.contents=res.data
+            this.contents = res.data
+            var x = this.contents.length;
+            for(var i = 0; i< x ;i++) {
+                var id = this.contents[i].categoryId;
+                this.contents[i].helpDate = this.contents[i].helpDate.replace('T',' ').slice(0,16)
+               var y = 0;
+                 axios.get(`api/Category/GetCategoryById/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        token: token
+                        }
+                    })
+                    .then((res2) => {
+                        if(res2.status === 200) {
+                            this.contents[y].categoryId = res2.data;
+                            this.name = res2.data.categoryName
+                           y++;
+                        }
+                    })
+                    .catch((err2) => {
+                        console.log(err2);
+                    })
+                    var userId = this.contents[i].applicationUserId;
+                    var a = 0;
+                    axios.get(`api/Users/GetUserById/${userId}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        token: token
+                        }
+                    })
+                    .then((res2) => {
+                        if(res2.status === 200) {
+                            this.contents[a].applicationUserId = res2.data;
+                            a++;
+                        }
+                    })
+                    .catch((err2) => {
+                    console.log(err2);
+                    })
+            }
           }
         })
         .catch((err) => {
@@ -111,6 +152,9 @@ export default {
         goContent(id) {
             this.$router.push({path: `/content/${id}`});
         },
+        goUser(id) {
+            this.$router.push(`user/${id}`)
+        }
 
     },
     computed: {
@@ -167,5 +211,8 @@ export default {
 }
 .btn-secondary {
     float:left;margin:5px;
+}
+.user {
+    cursor: pointer;
 }
   </style>

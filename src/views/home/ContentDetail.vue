@@ -11,9 +11,7 @@
                                 <h5 class="card-title">{{content.helpTitle}}</h5>
                             </div>
                             <div class="col">
-                                <router-link to="/category/id" class="nav-link">
-                                    <h5 class="card-category">{{content.categoryId}}</h5>
-                                </router-link>
+                                    <h5 class="card-category" @click="goCategory(content.categoryId.categoryId)">{{content.categoryId}}</h5>
                             </div>
                         </div>
                         <div class="row">
@@ -29,7 +27,7 @@
                             </div>
                         </div> -->
                         <div class="row">
-                            <div class="col">
+                            <div class="col" @click="goUser(content.applicationUserId)">
                                 <span class="user">{{content.applicationUserId}} {{ $t("asked") }} {{content.helpDate}}</span>
                             </div>
                         </div>
@@ -122,6 +120,38 @@ mounted() {
           if(res.status === 200) {
             this.content=res.data
             console.log(res.data)
+            this.content.helpDate = this.content.helpDate.replace('T',' ').slice(0,16)
+            var id = this.content.categoryId;
+            axios.get(`api/Category/GetCategoryById/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        token: token
+                        }
+                    })
+                    .then((res2) => {
+                        if(res2.status === 200) {
+                            this.content.categoryId = res2.data;
+                            this.name = res2.data.categoryName
+                        }
+                    })
+                    .catch((err2) => {
+                        console.log(err2);
+                    })
+                    var userId = this.content.applicationUserId;
+                    axios.get(`api/Users/GetUserById/${userId}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        token: token
+                        }
+                    })
+                    .then((res2) => {
+                        if(res2.status === 200) {
+                            this.content.applicationUserId = res2.data;
+                        }
+                    })
+                    .catch((err2) => {
+                    console.log(err2);
+                    })
           }
         })
         .catch((err) => {

@@ -53,7 +53,7 @@ export default {
     },
     methods: {
         go(id) {
-            this.$router.push(`/categories/${id}`);
+            this.$router.push(`/category/${id}`);
         }
     },
   components: {

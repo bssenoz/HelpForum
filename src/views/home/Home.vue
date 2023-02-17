@@ -22,7 +22,7 @@
                                         <div class="col-lg-2 col-sm-12">
                                             <div class="card-left">
                                                 <div class="row">
-                                                    <div @click="goCategory(content.categoryId)"><h5>{{content.categoryId}}</h5></div>
+                                                    <div @click="goCategory(content.categoryId.categoryId)" style="cursor:pointer"><h5>{{content.categoryId.categoryName}}</h5></div>
                                                     <div ><h6>[?]{{content.answer}} {{ $t("answer") }}</h6></div>
                                                 </div>
                                             </div>
@@ -48,8 +48,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col" @click="goUser(content.applicationUserId)">
-                                                        <span class="user">{{content.applicationUserId}} {{ $t("asked") }} {{content.helpDate}}</span>
+                                                    <div class="col" @click="goUser(content.applicationUserId.id)">
+                                                        <span class="user">{{content.applicationUserId.userName}} {{ $t("asked") }} {{content.helpDate}}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -96,6 +96,7 @@ export default {
             var x = this.contents.length;
             for(var i = 0; i< x ;i++) {
                 var id = this.contents[i].categoryId;
+                this.contents[i].helpDate = this.contents[i].helpDate.replace('T',' ').slice(0,16)
                 var y = 0;
                  axios.get(`api/Category/GetCategoryById/${id}`, {
                     headers: {
@@ -105,31 +106,30 @@ export default {
                     })
                     .then((res2) => {
                         if(res2.status === 200) {
-                            this.contents[y].categoryId = res2.data.categoryName;
-                            y++;
+                            this.contents[y].categoryId = res2.data;
+                           y++;
                         }
                     })
                     .catch((err2) => {
                         console.log(err2);
                     })
-                //-----
-                    // console.log("i: "+i)
-                    // var userId = this.contents[i].applicationUserId;
-                    // axios.get(`api/Users/GetUserById/${userId}`, {
-                    // headers: {
-                    //     Authorization: `Bearer ${token}`,
-                    //     token: token
-                    //     }
-                    // })
-                    // .then((res2) => {
-                    //     if(res2.status === 200) {
-                    //         this.contents[y].applicationUserId = res2.data.userName;
-                    //         y++;
-                    //     }
-                    // })
-                    // .catch((err2) => {
-                    // console.log(err2);
-                    // })
+                    var userId = this.contents[i].applicationUserId;
+                    var a = 0;
+                    axios.get(`api/Users/GetUserById/${userId}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        token: token
+                        }
+                    })
+                    .then((res2) => {
+                        if(res2.status === 200) {
+                            this.contents[a].applicationUserId = res2.data;
+                            a++;
+                        }
+                    })
+                    .catch((err2) => {
+                    console.log(err2);
+                    })
             }
           }
         })
@@ -207,6 +207,7 @@ export default {
 }
 .user {
     float:right;
+    cursor:pointer;
 }
 .btn-primary {
     float:right;background-color: #189AB4;border:1px solid #189AB4

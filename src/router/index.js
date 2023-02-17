@@ -42,7 +42,7 @@ const routes = [
     component: () => import('../views/home/CategoryMenu.vue'),
   },
   {
-    path: '/categories/:id',
+    path: '/category/:id',
     name: 'CategoryContents',
     component: () => import('../views/home/CategoryContents.vue'),
   },
