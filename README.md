@@ -1,4 +1,4 @@
-# help2
+# Help Forum
 
 ## Project setup
 ```
